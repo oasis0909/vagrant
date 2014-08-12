@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Multi VM Vagrantfile
+# inspired from Mark Barger's https://gist.github.com/2404910
+
+Vagrant::Config.run do |config|
+
+	config.vm.define :centos5i386 do |centos5i386_config|
+		#vm config
+		centos5i386_config.vm.network :hostonly, "192.168.1.20"
+		#centos5i386.config.vm.provider :virtualbox
+		centos5i386_config.vm.box = "centos5_i386"
+		centos5i386_config.vm.host_name = "centos5-i386"
+		centos5i386_config.vm.forward_port 22, 22229
+		centos5i386_config.vm.customize ["modifyvm", :id, "--memory", 1024]
+		centos5i386_config.vm.boot_mode = :gui
+		centos5i386_config.ssh.private_key_path = "~/.ssh/id_dsa"
+		centos5i386_config.ssh.forward_agent = true
+
+		#chef-solo
+		#centos5i386_config.vm.provision :chef_solo do |chef|
+		#	chef.cookbooks_path = "~/vagrant/cookbooks"
+		#	chef.add_recipe "ntp"
+		#	chef.add_recipe "hello"
+			#chef.log_level = :info
+		#	chef.log_level = :debug
+
+			#You may also specify custom JSON attributes:
+			#chef.json = { :mysql_password => "foo" }
+		#end
+	end
+end

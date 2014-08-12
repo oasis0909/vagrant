@@ -1,0 +1,107 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Multi VM Vagrantfile
+# inspired from Mark Barger's https://gist.github.com/2404910
+
+Vagrant::Config.run do |config|
+
+	#VM: 1st set
+	config.vm.define :node01 do |node01_config|
+		#vm config
+		node01_config.vm.network :hostonly, "192.168.1.11"
+		#node01.config.vm.provider :virtualbox
+		node01_config.vm.box = "multivm"
+		node01_config.vm.host_name = "node01"
+		node01_config.vm.forward_port 22, 22220
+		node01_config.vm.customize ["modifyvm", :id, "--memory", 1024]
+		node01_config.vm.boot_mode = :gui
+		node01_config.ssh.private_key_path = "~/.ssh/id_dsa"
+		node01_config.ssh.forward_agent = true
+
+		#chef-solo
+		node01_config.vm.provision :chef_solo do |chef|
+			chef.cookbooks_path = "~/vagrant/cookbooks"
+			chef.add_recipe "ntp"
+			chef.add_recipe "hello"
+			#chef.log_level = :info
+			chef.log_level = :debug
+
+			#You may also specify custom JSON attributes:
+			#chef.json = { :mysql_password => "foo" }
+		end
+	end
+
+	#VM: 2nd set
+	config.vm.define :node02 do |node02_config|
+		#vm config
+		node02_config.vm.network :hostonly, "192.168.1.12"
+		node02_config.vm.box = "multivm"
+		node02_config.vm.host_name = "node02"
+		node02_config.vm.forward_port 22, 22221
+		node02_config.vm.customize ["modifyvm", :id, "--memory", 1024]
+		node02_config.vm.boot_mode = :gui
+		node02_config.ssh.private_key_path = "~/.ssh/id_dsa"
+		node02_config.ssh.forward_agent = true
+
+		#chef-solo
+		node02_config.vm.provision :chef_solo do |chef|
+			chef.cookbooks_path = "~/vagrant/cookbooks"
+			chef.add_recipe "ntp"
+			chef.add_recipe "hello"
+			#chef.log_level = :info
+			chef.log_level = :debug
+
+			#You may also specify custom JSON attributes:
+			#chef.json = { :mysql_password => "foo" }
+		end
+	end
+
+	#VM: 3rd set
+	config.vm.define :node03 do |node03_config|
+		#vm config
+		node03_config.vm.network :hostonly, "192.168.1.13"
+		node03_config.vm.box = "multivm"
+		node03_config.vm.host_name = "node03"
+		node03_config.vm.forward_port 22, 22222
+		node03_config.vm.customize ["modifyvm", :id, "--memory", 1024]
+		node03_config.vm.boot_mode = :gui
+		node03_config.ssh.private_key_path = "~/.ssh/id_dsa"
+
+		#chef-solo
+		node03_config.vm.provision :chef_solo do |chef|
+			chef.cookbooks_path = "~/vagrant/cookbooks"
+			chef.add_recipe "ntp"
+			chef.add_recipe "hello"
+			#chef.log_level = :info
+			chef.log_level = :debug
+
+			#You may also specify custom JSON attributes:
+			#chef.json = { :mysql_password => "foo" }
+		end
+	end
+
+	#VM: redmine_test
+	config.vm.define :redmine do |redmine_config|
+		#vm config
+		redmine_config.vm.network :hostonly, "192.168.1.100"
+		redmine_config.vm.box = "multivm"
+		redmine_config.vm.host_name = "redmine"
+		redmine_config.vm.forward_port 22, 2002
+		redmine_config.vm.customize ["modifyvm", :id, "--memory", 3072]
+		redmine_config.vm.boot_mode = :gui
+		redmine_config.ssh.private_key_path = "~/.ssh/id_dsa"
+
+#		#chef-solo
+#		redmine_config.vm.provision :chef_solo do |chef|
+#			chef.cookbooks_path = "~/vagrant/cookbooks"
+#			chef.add_recipe "ntp"
+#			chef.add_recipe "hello"
+#			#chef.log_level = :info
+#			chef.log_level = :debug
+#
+#			#You may also specify custom JSON attributes:
+#			#chef.json = { :mysql_password => "foo" }
+#		end
+	end
+
+end
