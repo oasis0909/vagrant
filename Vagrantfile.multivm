@@ -21,7 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		node01.vm.host_name = "node01"
 		node01.ssh.private_key_path = "~/.ssh/id_dsa"
 		node01.ssh.forward_agent = true
-
 		#chef-solo
 		node01.vm.provision :chef_solo do |chef|
 			chef.cookbooks_path = "~/vagrant/cookbooks"
@@ -41,7 +40,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		node02.vm.host_name = "node02"
 		node02.ssh.private_key_path = "~/.ssh/id_dsa"
 		node02.ssh.forward_agent = true
-
 		#chef-solo
 		node02.vm.provision :chef_solo do |chef|
 			chef.cookbooks_path = "~/vagrant/cookbooks"
@@ -61,7 +59,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		node03.vm.box = "multivm"
 		node03.vm.host_name = "node03"
 		node03.ssh.private_key_path = "~/.ssh/id_dsa"
-
 		#chef-solo
 		node03.vm.provision :chef_solo do |chef|
 			chef.cookbooks_path = "~/vagrant/cookbooks"
@@ -81,7 +78,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		cent64.vm.box = "centos64"
 		cent64.vm.host_name = "cent64"
 		cent64.ssh.private_key_path = "~/.ssh/id_dsa"
-
 		#chef-solo
 		cent64.vm.provision :chef_solo do |chef|
 			chef.cookbooks_path = "~/vagrant/cookbooks"
@@ -101,7 +97,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		cent7.vm.box = "hfm4/centos7"
 		cent7.vm.host_name = "cent7"
 		cent7.ssh.private_key_path = "~/.ssh/id_dsa"
-
+		cent7.vm.provision :shell do |shell|
+			shell.inline = "sudo hostname cent7"
+		end
 		#chef-solo
 		cent7.vm.provision :chef_solo do |chef|
 			chef.cookbooks_path = "~/vagrant/cookbooks"
