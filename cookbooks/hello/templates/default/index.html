@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hello, world</title>
+  </head>
+  <body>
+    <p>
+      あなたの予想に反してこのページが見えているでしょうか?
+    </p>
+    <ul>
+      <li>OS: <%= node[:platform] %> <%= node[:platform_version] %></li>
+      <li>IP Address: <%= node[:ipaddress] %></li>
+      <li>Hostname: <%= node[:hostname] %></li>
+      <li>Recipes: <%= node[:recipes] %></li>
+    </ul>
+  </body>
+</html>
