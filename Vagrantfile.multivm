@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		config.omnibus.chef_version = :latest
 		config.vm.provider "virtualbox" do |vb|
 			vb.gui = true
-			vb.customize ["modifyvm", :id, "--memory", 2000]
+			vb.customize ["modifyvm", :id, "--memory", 1200]
 			vb.customize ["modifyvm", :id, "--cpus", 2]
 		end
 	#VM: 1st set
@@ -71,45 +71,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			#chef.json = { :mysql_password => "foo" }
 		end
 	end
-	#VM: 4rh set
-	config.vm.define :cent64 do |cent64|
-		#vm config
-		cent64.vm.network :private_network, ip:"192.168.1.14"
-		cent64.vm.box = "centos64"
-		cent64.vm.host_name = "cent64"
-		cent64.ssh.private_key_path = "~/.ssh/id_dsa"
-		#chef-solo
-		cent64.vm.provision :chef_solo do |chef|
-			chef.cookbooks_path = "~/vagrant/cookbooks"
-			chef.add_recipe "ntp"
-			chef.add_recipe "hello"
-			#chef.log_level = :info
-			chef.log_level = :debug
-
-			#You may also specify custom JSON attributes:
-			#chef.json = { :mysql_password => "foo" }
-		end
-	end
-	#VM: 5rh set
-	config.vm.define :cent7 do |cent7|
-		#vm config
-		cent7.vm.network :private_network, ip:"192.168.1.15", auto_config:false
-		cent7.vm.box = "hfm4/centos7"
-		cent7.vm.host_name = "cent7"
-		cent7.ssh.private_key_path = "~/.ssh/id_dsa"
-		cent7.vm.provision :shell do |shell|
-			shell.inline = "sudo hostname cent7"
-		end
-		#chef-solo
-		cent7.vm.provision :chef_solo do |chef|
-			chef.cookbooks_path = "~/vagrant/cookbooks"
-			chef.add_recipe "ntp"
-			chef.add_recipe "hello"
-			#chef.log_level = :info
-			chef.log_level = :debug
-
-			#You may also specify custom JSON attributes:
-			#chef.json = { :mysql_password => "foo" }
-		end
-	end
+	#VM: 4th set
+#	config.vm.define :cent7 do |cent7|
+#		#vm config
+#		cent7.vm.network :private_network, ip:"192.168.1.15", auto_config:false
+#		cent7.vm.box = "hfm4/centos7"
+#		cent7.vm.host_name = "cent7"
+#		cent7.ssh.private_key_path = "~/.ssh/id_dsa"
+#		cent7.vm.provision :shell do |shell|
+#			shell.inline = "sudo hostname cent7"
+#		end
+#		#chef-solo
+#		cent7.vm.provision :chef_solo do |chef|
+#			chef.cookbooks_path = "~/vagrant/cookbooks"
+#			chef.add_recipe "ntp"
+#			chef.add_recipe "hello"
+#			#chef.log_level = :info
+#			chef.log_level = :debug
+#
+#			#You may also specify custom JSON attributes:
+#			#chef.json = { :mysql_password => "foo" }
+#		end
+#	end
 end
